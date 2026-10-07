@@ -1,6 +1,6 @@
 # khoahuynh.dev
 
-This repository holds the personal landing page of Khoa Huỳnh, served at https://khoahuynh.dev. It is plain hand-written HTML and one CSS file. There is no build step, no framework, no JavaScript, no external fonts or CDNs, no analytics and no cookies. The pages are `index.html` and `privacy.html`, styled by `styles.css`, with `favicon.svg`, `robots.txt`, `sitemap.xml` and a `CNAME` file for the custom domain.
+This repository holds the personal landing page of Khoa Huỳnh, served at https://khoahuynh.dev. It is plain hand-written HTML and one CSS file. There is no build step, no framework, no JavaScript, no external fonts or CDNs, no analytics and no cookies. The pages are `index.html` and `privacy.html`, styled by `styles.css`, with `favicon.svg`, `robots.txt`, and `sitemap.xml`. The `_headers` file sets the security and cache headers.
 
 ## Prerequisites
 
@@ -10,13 +10,15 @@ None. You only need a browser. For a local preview you need Python 3, which most
 
 Run `python3 -m http.server` in the repository root, then open http://localhost:8000. The pages use root-relative links, so serve from the root and not by opening the files directly.
 
-## Deploy to GitHub Pages
+## Deployment
 
-In the repository settings, open Pages and set the source to deploy from the `main` branch, root folder. The `CNAME` file already contains `khoahuynh.dev`, so GitHub picks up the custom domain.
+The site is hosted on Cloudflare Pages. In the Cloudflare dashboard, create a Pages project and connect it to the GitHub repository khoahuynhdev/landing. Set the production branch to `main`, the framework preset to None, leave the build command empty, and set the build output directory to `/`, which is the repository root.
 
-At your DNS provider, add these records for the apex domain khoahuynh.dev. The A records are 185.199.108.153, 185.199.109.153, 185.199.110.153 and 185.199.111.153. The AAAA records are 2606:50c0:8000::153, 2606:50c0:8001::153, 2606:50c0:8002::153 and 2606:50c0:8003::153.
+Then open Custom domains in the project and add khoahuynh.dev. The domain is already on Cloudflare, so Pages creates the DNS record for you. First remove any existing A, AAAA or CNAME record for the apex, or Pages cannot create its own.
 
-The `.dev` top-level domain is on the HSTS preload list, so browsers only connect over HTTPS. Turn on "Enforce HTTPS" in the Pages settings once the certificate is issued, or the site will not load.
+Every push to `main` deploys to production. Other branches get preview URLs. The `_headers` file in the repository root sets the security headers and cache rules, and Pages parses it instead of serving it. When you add a new page, no extra configuration is needed.
+
+Known limit: Pages serves every file in the output directory, so this README is public at https://khoahuynh.dev/README.md. It holds no secrets. The `.assetsignore` file that excludes files is a Workers feature, and the Pages documentation does not describe it, so it is not used here.
 
 ## Email
 
