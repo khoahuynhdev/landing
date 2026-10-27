@@ -1,6 +1,6 @@
 # khoahuynh.dev
 
-Khoa Huỳnh's static landing page and IT services calculator, hosted on Cloudflare Pages at https://khoahuynh.dev. Hand-written HTML, CSS and browser JavaScript; no framework, runtime dependencies, external fonts/CDNs, analytics or cookies.
+Khoa Huỳnh's static landing page and IT services calculator, deployed with Cloudflare Workers Static Assets at https://khoahuynh.dev. Hand-written HTML, CSS and browser JavaScript; no framework, runtime dependencies, external fonts/CDNs, analytics or cookies.
 
 ## Build and preview production
 
@@ -18,26 +18,30 @@ The build copies an explicit allowlist into a fresh `dist/`. It publishes the Co
 
 Claude's implementation, pricing notes, tests, assistant settings and repository files are not copied. Do not deploy the repository root: excluding a file from navigation or search engines would not prevent direct access to it.
 
-## Existing Cloudflare Pages project
+## Existing Cloudflare Worker
 
-In the existing project's build settings, use:
+The project uses **Workers Builds**, not Pages. In the existing `landing` Worker's build settings, use:
 
 | Setting | Value |
 | --- | --- |
 | Git repository | `khoahuynhdev/landing` |
 | Production branch | `main` |
-| Framework preset | None |
-| Root directory | Repository root (leave blank) |
+| Root directory | Repository root (leave unchanged if already correct) |
 | Build command | `node scripts/build-site.mjs` |
-| Build output directory | `dist` |
+| Deploy command | `npx wrangler deploy` |
+| Build watch paths | `*` |
 
-**Save these settings before pushing this change to the production branch.** The former configuration published the repository root; this change depends on deploying `dist` instead. If changing the settings triggers an old revision to fail because the script is not present yet, push the prepared commit after saving the settings. A failed build does not replace the last successful deployment.
+There is no Pages-style output-directory field here. `wrangler.jsonc` sets `assets.directory` to `./dist`, so Wrangler uploads only the generated public files. The name `landing` must match the existing Worker. Do not use a deploy command with `--assets .`, which would override the configured directory. Build watch paths only control which commits trigger a build; they do not control which files are uploaded.
 
-Keep the existing custom domain and DNS configuration. Pushes to `main` deploy production through the existing Git integration. Preview deployments depend on the project's branch deployment controls. `_headers` and `_redirects` are copied into the deployment output so Cloudflare can apply them. Old `/codex-pricing` and `/codex-pricing.html` URLs redirect to `/pricing`.
+The configuration also sets `assets.not_found_handling` to `404-page`, so unknown paths return the custom `404.html` with HTTP 404. No server-side Worker script or framework is required. Keep the existing custom-domain configuration.
 
-After deployment, check the home-page calculator link, hourly/project modes, downloads, and printing. Confirm that `/claude-pricing.html`, `/claude-version.md`, `/codex-version.md` and `/README.md` return 404. The top-level `404.html` disables Pages' implicit SPA fallback for unknown paths.
+Pushes to `main` deploy through the existing Git integration after the build and deploy commands are configured. `_headers` and `_redirects` are copied into the assets directory for Cloudflare to apply. Old `/codex-pricing` and `/codex-pricing.html` URLs redirect to `/pricing`.
 
-Cloudflare references: [Build configuration](https://developers.cloudflare.com/pages/configuration/build-configuration/), [Serving Pages](https://developers.cloudflare.com/pages/configuration/serving-pages/), [Redirects](https://developers.cloudflare.com/pages/configuration/redirects/).
+For an optional local check of Cloudflare routing and headers, run `node scripts/build-site.mjs` and then `npx wrangler dev`. Wrangler is deployment tooling and can be fetched by `npx`; the application itself has no runtime dependencies.
+
+After deployment, check the home-page calculator link, hourly/project modes, downloads and printing. Confirm `/claude-pricing.html`, `/claude-version.md`, `/codex-version.md` and `/README.md` return 404.
+
+Cloudflare references: [Workers build configuration](https://developers.cloudflare.com/workers/ci-cd/builds/configuration/), [Static assets](https://developers.cloudflare.com/workers/static-assets/), [Custom 404 pages](https://developers.cloudflare.com/workers/static-assets/routing/static-site-generation/).
 
 ## Review Claude's version locally
 
