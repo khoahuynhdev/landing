@@ -1,3 +1,8 @@
 # Generated deployment output and local assistant settings
 /dist/
 /.claude/
+
+# Internal pricing and business notes (cost floor, margins, availability). Never publish.
+/vietnam-it-contracting-and-sla.md
+/codex-version.md
+/claude-version.md

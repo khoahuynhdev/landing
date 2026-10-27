@@ -56,7 +56,7 @@ The production link `/pricing.html` exists in generated `dist/`, not in the sour
 
 `codex-pricing.html`, `codex-pricing.css` and `codex-pricing.js` implement the selected calculator. Shared landing-page styling comes from `styles.css`. Edit `codex-pricing-model.mjs` for rates, appointment windows, catalog scope and calculation rules. Business assumptions are documented in `codex-version.md`.
 
-Standalone hourly work is 500,000 VND/hour, with weekday appointment windows of 07:30–09:00, 16:00–18:00 and 19:00–21:00, Vietnam time. Project estimates, retainers and their overage use their separate documented rates. Taxes are unresolved, not assumed zero.
+Standalone hourly work is 500,000 VND/hour, with weekday appointment windows of 07:30–09:00, 16:00–18:00 and 19:00–21:00, Vietnam time. Fixed-project packages use a 400,000 VND/hour base plus 10–20% contingency (460,000/hour at the standard 15%). Retainers are 900k/2 hours, 1.35M/3 hours and 2M/5 hours; approved overage is 500,000/hour. Comparison rates use estimated or included hours, before tax and external costs. Taxes are unresolved, not assumed zero.
 
 The calculator processes inputs in the browser without persistence or submission. Download produces a text proposal; print produces a proposal with the applicable scope, prices and terms. The shared content security policy permits the same-origin modules without inline scripts.
 

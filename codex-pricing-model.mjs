@@ -1,4 +1,4 @@
-export const RATE = 650000;
+export const RATE = 400000; // Package labor base; 15% contingency gives 460,000/hour.
 export const HOURLY_RATE = 500000;
 export const BOOKING_WINDOWS = 'Monday–Friday, 07:30–09:00, 16:00–18:00 and 19:00–21:00 (Asia/Ho_Chi_Minh, UTC+7)';
 export const HOURLY_SERVICES = {
@@ -39,9 +39,9 @@ export function hourlyProposal(result, description = '') {
 }
 export const SUPPORT = {
   none: { name: 'No retainer', fee: 0, hours: 0 },
-  basic: { name: 'Basic', fee: 1500000, hours: 2 },
-  standard: { name: 'Standard', fee: 2500000, hours: 3 },
-  extended: { name: 'Extended', fee: 4000000, hours: 5 },
+  basic: { name: 'Basic', fee: 900000, hours: 2 },
+  standard: { name: 'Standard', fee: 1350000, hours: 3 },
+  extended: { name: 'Extended', fee: 2000000, hours: 5 },
 };
 export const CATALOG = [
   { id: 'website', group: 'Software', name: 'Business website', unit: 'website', hours: 16, description: 'A small, responsive presence for your business.', scope: 'Up to 5 pages, supplied content, one visual direction, two consolidated revision rounds. Includes QA and handover; deployment is separate.', excludes: 'Copywriting, branding, payments, CMS and custom workflows.', steps: ['Agree page list and content', 'Review layout and build pages', 'Test mobile layout and links', 'Accept pages and hand over source'] },
@@ -83,20 +83,20 @@ export function calculate(input) {
   const total = services + external + travel;
   const support = SUPPORT[input.support] || SUPPORT.none;
   const overageHours = support.hours ? bounded(input.overageHours, 0, 20) : 0;
-  const overage = Math.round(overageHours * 750000);
+  const overage = Math.round(overageHours * HOURLY_RATE);
   const monthly = support.fee + overage;
   const months = Math.round(bounded(input.months, 1, 12, 12));
   const weeklyHours = bounded(input.weeklyHours, 1, 8, 4);
   const weeks = hours ? Math.ceil((hours * (1 + contingencyPercent / 100) + travelHours) / weeklyHours) : 0;
   const first = Math.round(services * .4);
   const second = Math.round(services * .4);
-  return { lines, hours, labor, contingencyPercent, contingency, discountPercent, discount, services, external, travelHours, travel, total, support, overageHours, overage, monthly, months, budget: total + monthly * months, weeklyHours, weeks, milestones: [first, second, services - first - second] };
+  return { effectiveRate: hours ? services / hours : 0, lines, hours, labor, contingencyPercent, contingency, discountPercent, discount, services, external, travelHours, travel, total, support, overageHours, overage, monthly, months, budget: total + monthly * months, weeklyHours, weeks, milestones: [first, second, services - first - second] };
 }
 export const money = value => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(value);
 export function proposal(result, title = 'IT services estimate') {
   return [title, 'Indicative estimate · VND · tax treatment pending verification', '', 'SCOPE & DELIVERY',
     ...result.lines.flatMap(line => [`${line.name} × ${line.quantity}: ${money(line.labor)} labor (${line.totalHours} hours)`, `Included per unit: ${line.scope}`, `Excluded: ${line.excludes}`, ...line.steps.map((step, i) => `  ${i + 1}. ${step}`), '']),
-    'PRICING', `Labor: ${money(result.labor)}`, `Contingency (${result.contingencyPercent}%): ${money(result.contingency)}`, `Discount (${result.discountPercent}%): −${money(result.discount)}`, `Professional services: ${money(result.services)}`, `Travel labor: ${money(result.travel)}`, `External costs: ${money(result.external)}`, `One-time total before applicable tax: ${money(result.total)}`, '',
+    'PRICING', `Package services per estimated hour: ${money(result.effectiveRate)} (includes contingency and discount; excludes travel, external costs and tax)`, `Labor: ${money(result.labor)}`, `Contingency (${result.contingencyPercent}%): ${money(result.contingency)}`, `Discount (${result.discountPercent}%): −${money(result.discount)}`, `Professional services: ${money(result.services)}`, `Travel labor: ${money(result.travel)}`, `External costs: ${money(result.external)}`, `One-time total before applicable tax: ${money(result.total)}`, '',
     `Monthly support: ${result.support.name}, ${money(result.support.fee)} / ${result.support.hours} included hours`, `Optional approved overage: ${result.overageHours} hours / ${money(result.overage)}`, `Monthly planning total: ${money(result.monthly)}`, `${result.months}-month combined budget: ${money(result.budget)} (not a term commitment; excludes unentered third-party recurring costs and tax)`, '',
     `Delivery estimate: ${result.weeks} weeks at ${result.weeklyHours} project hours/week, including contingency and travel; client waiting time is additional.`,
     `Services payments: 40% ${money(result.milestones[0])} on signing; 40% ${money(result.milestones[1])} on agreed milestone acceptance; 20% ${money(result.milestones[2])} on final acceptance/handover. External costs prepaid after approval; travel separately agreed.`, '',
@@ -104,7 +104,7 @@ export function proposal(result, title = 'IT services estimate') {
     'Scope and capacity review → written quotation / SOW → signing and deposit → implementation and demonstration → acceptance and handover → optional scheduled care.',
     '30-day warranty for attributable in-scope defects from written final acceptance; covered fixes do not consume maintenance hours.',
     'Retainer coverage must name the systems. Standard catalog packages cover one application on one server; an office/network/mail estate requires a separately agreed support scope. Hours are shared across that scope, not per item.',
-    'All communication, preventive checks and investigation count toward the monthly allowance. Unused hours expire. Overage needs written approval; no emergency spending authorization is implied.',
+    'Package comparisons use estimated delivery hours or the full included maintenance allowance, not actual hours consumed. A fixed project fee is not adjusted when work finishes early; unused maintenance hours expire. All communication, preventive checks and investigation count toward the monthly allowance. Overage needs written approval; no emergency spending authorization is implied.',
     `Booking windows: ${BOOKING_WINDOWS}, by confirmed appointment. Weekends and public holidays by separate agreement. Acknowledgment target: two business days. Bug investigation appointment arranged within three business days; this is not a guaranteed start or repair deadline.`,
     'Critical incidents: best effort. No 24/7 staffing, uptime guarantee or guaranteed recovery time. Automated alerts do not mean continuous human monitoring.',
     'Self-hosted mail requires discovery and a named provider for urgent operations. Backup ownership, retention and restore responsibility must be agreed.',
