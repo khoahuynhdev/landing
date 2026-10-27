@@ -14,6 +14,8 @@ export const publicFiles = [
   ['codex-pricing.css', 'codex-pricing.css'],
   ['styles.css', 'styles.css'],
   ['favicon.svg', 'favicon.svg'],
+  ['og-image.png', 'og-image.png'],
+  ['og-pricing.png', 'og-pricing.png'],
   ['robots.txt', 'robots.txt'],
   ['sitemap.xml', 'sitemap.xml'],
   ['404.html', '404.html'],
