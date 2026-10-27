@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pricing calculator · Khoa Huỳnh</title>
+  <meta name="description" content="Estimate the price, payment schedule and steps of a website, web app, deployment or office IT project with Khoa Huỳnh. Prices in VND.">
+  <link rel="canonical" href="https://khoahuynh.dev/claude-pricing.html">
+  <meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#121413" media="(prefers-color-scheme: dark)">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Pricing calculator · Khoa Huỳnh">
+  <meta property="og:description" content="Estimate the price, payment schedule and steps of a project. Prices in VND, exclusive of taxes.">
+  <meta property="og:url" content="https://khoahuynh.dev/claude-pricing.html">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/claude-pricing.css">
+  <script type="module" src="/claude-pricing.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="page page-wide">
+    <header class="masthead">
+      <p class="back"><a href="/">&larr; Khoa Huỳnh</a></p>
+      <h1 class="doc-title">Pricing calculator</h1>
+      <p class="aka">Indicative prices in VND, exclusive of taxes. Last updated: 2026-10-26</p>
+      <svg class="orn" width="64" height="12" viewBox="0 0 64 12" aria-hidden="true" focusable="false"><path d="M0 6h26M38 6h26" fill="none" stroke="currentColor" stroke-width="1"/><path d="M32 1l5 5-5 5-5-5z" fill="currentColor"/></svg>
+    </header>
+
+    <div class="layout">
+    <main id="main">
+      <p>Choose the work you need. The calculator shows the price, the payment schedule, the time it takes and the steps of the work. It runs in your browser and sends nothing. The final price is in a written quotation, which is valid for 30 days.</p>
+      <noscript><p>The calculator needs JavaScript. You can still read the terms below, or email <a href="mailto:hello@khoahuynh.dev">hello@khoahuynh.dev</a> for a quotation.</p></noscript>
+
+      <section aria-labelledby="flow">
+      <h2 id="flow">How it works</h2>
+      <ol class="flow">
+        <li><span class="flow-title">Free 30-minute call</span> We talk about the problem and decide if I am a good fit for it.</li>
+        <li><span class="flow-title">Discovery, if the scope is unclear</span> A small paid phase turns ideas into a written scope. 50% of its fee is credited to the project.</li>
+        <li><span class="flow-title">Quotation and agreement</span> You get a written quotation and Statement of Work: scope, exclusions, milestones, acceptance criteria and price.</li>
+        <li><span class="flow-title">Work in milestones</span> You pay 40% at signing, 40% when you accept the milestone and 20% at handover. Projects below 10,000,000 VND are paid 50% at signing and 50% at handover.</li>
+        <li><span class="flow-title">Handover and warranty</span> You get the source code, documentation and all access in your name. I fix defects in the accepted scope free for 30 days.</li>
+        <li><span class="flow-title">Maintenance, if you want it</span> A monthly plan with scheduled preventive work and a fixed number of hours.</li>
+      </ol>
+      </section>
+
+      <section aria-labelledby="packages-title">
+      <h2 id="packages-title">Packages</h2>
+      <div id="packages" class="catalog"></div>
+      </section>
+
+      <section aria-labelledby="hourly-title">
+      <h2 id="hourly-title">Hourly work</h2>
+      <div>
+        <p>For any work without a package: advice, troubleshooting, small changes or a second pair of eyes. One flat rate of <span data-rate="hourly"></span> applies to all of it. We agree an hour cap before the work starts. You pay for the actual hours, in 30-minute steps with a 1-hour minimum, and you get a time log.</p>
+        <div class="fields">
+          <label for="hours"><span class="field-name">Hours of work</span><span class="field-rate" data-rate="hourly"></span></label>
+          <input id="hours" type="number" min="0" max="200" step="0.5" inputmode="decimal" value="0">
+          <label for="visits"><span class="field-name">Onsite visits</span><span class="field-rate">Travel time at 50%, transport at cost</span></label>
+          <input id="visits" type="number" min="0" max="20" step="1" inputmode="numeric" value="0">
+          <label for="travel-hours"><span class="field-name">Travel time per visit, round trip</span><span class="field-rate">Hours</span></label>
+          <input id="travel-hours" type="number" min="0" max="8" step="0.5" inputmode="decimal" value="1">
+        </div>
+      </div>
+      </section>
+
+      <section aria-labelledby="care-title">
+      <h2 id="care-title">Maintenance</h2>
+      <div>
+        <p>A monthly plan reserves scheduled time for your systems. All work counts against the included hours. Extra hours cost <span data-rate="hourly"></span> and need your approval first. Unused hours do not roll over. The minimum term is 3 months, then the plan renews monthly with 30 days' notice to stop.</p>
+        <fieldset class="plans">
+          <legend>Monthly plan</legend>
+          <div id="plans"></div>
+        </fieldset>
+        <label class="check" for="audit"><input id="audit" type="checkbox"> My system was not built or deployed by you. Add an onboarding audit, up to 4 hours.</label>
+        <details class="terms">
+          <summary>Support terms</summary>
+          <p>I work on a part-time schedule. On weekdays, support work happens at 7:30–9:00, 16:00–18:00 and 19:00–21:00, Vietnam time. At weekends I do planned work by agreement, such as cutovers and onsite visits. There is no support on public holidays or during Tết. I am not a 24/7 provider and do not guarantee uptime or restoration times.</p>
+          <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">Priority</th><th scope="col">Meaning</th><th scope="col">Acknowledgment</th><th scope="col">Action</th></tr></thead>
+            <tbody>
+              <tr><td>P1</td><td>Full outage</td><td>Best effort, normally in the next support window</td><td>Best effort, no fixed restoration time</td></tr>
+              <tr><td>P2</td><td>Core function down, no workaround</td><td>Best effort, normally in the next support window</td><td>Best effort, no fixed restoration time</td></tr>
+              <tr><td>P3</td><td>Partly broken, a workaround exists</td><td>Within 2 business days</td><td>Investigation scheduled within 3 business days</td></tr>
+              <tr><td>P4</td><td>Minor issue or question</td><td>Within 2 business days</td><td>Next monthly maintenance, or by agreement</td></tr>
+            </tbody>
+          </table>
+          </div>
+          <p>Acknowledgment means I confirm the request and its priority. It is not the fix. If a system must have an immediate response at all times, another provider must hold that responsibility, and I cooperate with them.</p>
+        </details>
+      </div>
+      </section>
+
+      <div class="totalbar" aria-live="polite">
+        <span><span class="bar-label">One-time</span> <span id="bar-once">0 VND</span></span>
+        <span><span class="bar-label">Hourly, up to</span> <span id="bar-hourly">0 VND</span></span>
+        <span><span class="bar-label">Monthly</span> <span id="bar-monthly">0 VND</span></span>
+        <a href="#estimate-title">See estimate</a>
+      </div>
+
+      <section aria-labelledby="estimate-title" class="estimate">
+      <h2 id="estimate-title">Your estimate</h2>
+      <div>
+        <div id="result"><p class="empty">Choose a package, hourly work or a maintenance plan to see the estimate.</p></div>
+        <div class="actions">
+          <button type="button" id="copy-link">Copy link</button>
+          <button type="button" id="copy-text">Copy summary</button>
+          <a class="button" data-email href="mailto:hello@khoahuynh.dev">Email me this estimate</a>
+          <button type="button" id="print">Print or save as PDF</button>
+        </div>
+        <p id="status" class="status" role="status"></p>
+      </div>
+      </section>
+
+      <section aria-labelledby="terms-title">
+      <h2 id="terms-title">Terms</h2>
+      <div>
+        <p>All prices are in VND and exclude taxes. They are indicative. The written quotation sets the final price and is valid for 30 days.</p>
+        <p>You buy hardware, software licenses, hosting and domains directly from the vendor, in your name. I write the bill of materials. Transport for onsite visits is charged at cost.</p>
+        <p>Work outside the signed scope is a change request at <span data-rate="hourly"></span>, estimated in writing and approved by you before it starts. Work outside the support window, if I accept it, costs 1.5 times the hourly rate.</p>
+        <p>I do not offer staff computer, printer or helpdesk support, CCTV, cabling or electrical work. I can recommend a specialist for these.</p>
+      </div>
+      </section>
+    </main>
+
+    <aside class="summary" aria-labelledby="summary-title">
+      <h2 id="summary-title">Estimate</h2>
+      <p class="sum-label">One-time, fixed price</p>
+      <p id="sum-once" class="sum-big" aria-live="polite">0 VND</p>
+      <dl class="sum-rows">
+        <div><dt>Hourly, up to</dt><dd id="sum-hourly">0 VND</dd></div>
+        <div><dt>Monthly</dt><dd id="sum-monthly">0 VND</dd></div>
+        <div><dt>First 12 months</dt><dd id="sum-year">0 VND</dd></div>
+        <div><dt>Due at signing</dt><dd id="sum-start">0 VND</dd></div>
+      </dl>
+      <ul id="sum-lines" class="sum-lines"></ul>
+      <p id="sum-time" class="sum-note"></p>
+      <div class="sum-actions">
+        <a class="button primary" data-email href="mailto:hello@khoahuynh.dev">Email me this estimate</a>
+        <a class="button" href="#estimate-title">Full estimate and work plan</a>
+      </div>
+      <p class="sum-note">VND, exclusive of taxes. The written quotation sets the final price.</p>
+    </aside>
+    </div>
+
+    <footer>
+      <p>&copy; 2026 Khoa Huỳnh · <a href="/privacy.html">Privacy policy</a></p>
+    </footer>
+  </div>
+</body>
+</html>
